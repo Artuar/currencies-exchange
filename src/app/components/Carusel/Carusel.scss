@@ -1,0 +1,64 @@
+.carusel {
+  width: 80%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.circle {
+  .items {
+    width: 100%;
+    height: 90%;
+    position: relative;
+    .item {
+      padding: 8vh 0;
+      font-size: 4vh;
+      color: rgba(205, 205, 205, 0.5);
+      white-space: nowrap;
+      transition: color 0.5s, font-size 0.5s, bottom 0.5s, left 0.5s, right 0.5s, top 0.5s;
+      position: absolute;
+      text-align: center;
+      left: 0;
+      top: 0;
+
+      &.current {
+        // width: 100%;
+        font-size: 8vh;
+        color: #ffffff;
+        left: 40%;
+        top: 70%;
+      }
+
+      &.next {
+        left: 80%;
+        top: 0;
+      }
+    }
+  }
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10%;
+}
+
+.point {
+  width: 1vh;
+  height: 1vh;
+  border-radius: 50%;
+  background: #ffffff;
+  opacity: 0.5;
+  margin: 1vh;
+  cursor: pointer;
+
+  &.active {
+    opacity: 1;
+  }
+
+  &:hover {
+    transform: scale(2);
+    transition: 0.2s ease-in-out;
+  }
+}
