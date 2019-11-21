@@ -19,11 +19,10 @@ export const balancesReducer = (
 ) => {
   switch (action.type) {
     case getType(actions.updateBalance): {
-      const { currency, sum } = action.payload;
-      return {
-        ...state,
-        [currency]: sum,
-      };
+      const newState = { ...state };
+      action.payload.forEach(balance => (newState[balance.currency] = balance.sum))
+      return newState;
+;
     }
     default:
       return state;

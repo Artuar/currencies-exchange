@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as styles from "./CurrenciesExchange.scss";
 import classNames from "classnames";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { chosenCurrenciesSelector, rateSelector, valueSelector } from "app/store/rates/rates.selectors";
 import { Currency } from "app/store/currency/currency.types";
@@ -26,13 +26,16 @@ const useDispatchActions = () => {
       dispatch(actions.setCurrencies({ from, to })),
     setValue:  (value: string) =>
       dispatch(actions.setValue(value)),
+    exchange: (value: number) =>
+      dispatch(actions.exchange(value)),
   };
 };
 
 export const CurrenciesExchange: React.FunctionComponent = () => {
   const { chosenCurrencies: { from, to }, currencies, rate, balances, value } = useStateSelectors();
-  const { setCurrencies, setValue } = useDispatchActions();
-  let { currency } = useParams();
+  const { setCurrencies, setValue, exchange } = useDispatchActions();
+  const { currency } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     const getTo = () => {
@@ -42,11 +45,18 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
       return currencies.indexOf(currency) === 0 ? currencies[1]: currencies[0];
     }
     setCurrencies(currency as Currency, getTo());
+    return () => {setValue('')};
   }, []);
 
   const formatedRate = rate ? rate.toFixed(2) : rate;
   const fromSign = getSign(from);
   const toSign = getSign(to);
+  const result = +value * +(formatedRate || 0);
+
+  const onExchange = () => {
+    exchange(result);
+    history.push({pathname: '/'});
+  }
 
   return (
     <>
@@ -55,7 +65,7 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
           <Link to="/">
             <button className={styles.cancel}>Cancel</button>
           </Link>
-          <button className={styles.exchange}>Exchange</button>
+          <button className={styles.exchange} onClick={onExchange}>Exchange</button>
         </div>
         <div className={styles.carusel}>
           <div className={styles.items}>
@@ -98,7 +108,7 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
             </div>
             <div className={styles.details}>
               <div className={styles.sum}>
-                { +value * +(formatedRate || 0) }
+                { result.toFixed(2) }
               </div>
               <div className={styles.rate}>
                 { toSign }1 = { fromSign }{ formatedRate }

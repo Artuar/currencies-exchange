@@ -32,7 +32,7 @@ export const Currencies: React.FunctionComponent = () => {
   const { currentCurrency, balances, currencies } = useStateSelectors();
   const { chooseCurrency } = useDispatchActions();
   const list: CaruselItem[] = currencies.map((currency: Currency) => {
-    return {text: `${balances[currency]} ${getSign(currency)}`, value: currency}
+    return {text: `${balances[currency].toFixed(2)} ${getSign(currency)}`, value: currency}
   });
   return (
     <>

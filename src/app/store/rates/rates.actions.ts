@@ -12,3 +12,7 @@ export const setRate = createStandardAction("@rates/SET_RATE")<
 export const setValue = createStandardAction("@rates/SET_VALUE")<
   string
 >();
+
+export const exchange = createStandardAction("@rates/EXCHANGE")<
+  number
+>();
