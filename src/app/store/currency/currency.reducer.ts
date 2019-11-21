@@ -1,19 +1,16 @@
 import { RootAction } from "app/store/rootActions";
 import { getType } from "typesafe-actions";
 import * as actions from "./currency.actions";
-
-export const enum Currency {
-  USD = "usd",
-  EUR = "eur",
-  GBP = "gbp",
-}
+import { Currency } from "./currency.types";
 
 export interface CurrencyState {
   currentCurrency: Currency;
+  currencies: Currency[];
 }
 
 export const currencyDefaultState: CurrencyState = {
-  currentCurrency: Currency.EUR,
+  currentCurrency: Currency.GBP,
+  currencies: [Currency.EUR, Currency.USD, Currency.GBP]
 };
 
 export const currencyReducer = (

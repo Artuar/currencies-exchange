@@ -16,7 +16,7 @@ export const AppComponent: React.FunctionComponent = () => {
           <Route exact path="/">
             <Currencies />
           </Route>
-          <Route path="/exchange">
+          <Route path="/exchange/:currency">
             <CurrenciesExchange />
           </Route>
         </Switch>
