@@ -1,12 +1,11 @@
 @import '../../styles/constants.scss';
+@import '../../styles/mixins.scss';
 
 .currencies,
 .exchanges {
   height: 50%;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flexCenter;
   flex-direction: column;
   position: relative;
 }
@@ -25,7 +24,7 @@
 
 .cancel,
 .exchange {
-  font-size: 2vh;
+  font-size: 0.8rem;
   cursor: pointer;
   border: none;
   transition: transform 0.2s ease-in-out;
@@ -33,22 +32,20 @@
   padding: 0;
 
   &:hover {
-    background-color: $sapphirine;
-    box-shadow: 0 0 2vh 2vh $sapphirine;
+    @include buttonHover($sapphirine);
   }
 
   &:active {
-    box-shadow: 0 0 2vh 2vh $pink;
-    background-color: $pink;
+    @include buttonHover($pink);
   }
 }
 
 .triangular {
   width: 1px;
   height: 1px;
-  border: 4vh solid transparent;
+  border: 1.5rem solid transparent;
   position: absolute;
   top: 0;
-  left: calc(50% - 4vh);
+  left: calc(50% - 1.5rem);
   border-top-color: $blue;
 }

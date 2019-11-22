@@ -1,16 +1,15 @@
 @import '../../styles/constants.scss';
+@import '../../styles/mixins.scss';
 
 .buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flexCenter;
   height: 20%;
 }
 
 .exchange {
   background: url('/assets/exchange.svg');
-  width: 8vh;
-  height: 8vh;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   transform: rotate(0deg);
   transition: transform 0.5s ease-in-out;
@@ -19,13 +18,11 @@
 
   &:hover {
     transform: rotate(-180deg);
-    background-color: $sapphirine;
-    box-shadow: 0 0 2vh 2vh $sapphirine;
+    @include buttonHover($sapphirine);
   }
 
   &:active {
-    box-shadow: 0 0 2vh 2vh $pink;
+    @include buttonHover($pink);
     transition: 0.2s ease-in-out;
-    background-color: $pink;
   }
 }

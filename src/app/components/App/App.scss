@@ -1,4 +1,5 @@
 @import '../../styles/constants.scss';
+@import '../../styles/mixins.scss';
 
 html {
   background: #212121;
@@ -24,18 +25,22 @@ input[type="text"] {
   background: transparent;
   border: transparent;
   outline: none;
-  font-size: 6vh;
+  font-size: 2rem;
   text-align: right;
   color: $white;
 }
 
 .content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flexCenter;
   flex-direction: column;
   background-image: linear-gradient(25deg, $blue 75%, $pink);
   height: 100vh;
   min-height: 500px;
-  min-width: 400px;
+  min-width: 500px;
+}
+
+@media(max-height:500px){
+    html {
+      font-size: 15px;
+    }
 }
