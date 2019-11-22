@@ -76,9 +76,12 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
           <Link to="/">
             <button className={styles.cancel}>Cancel</button>
           </Link>
-          <button className={styles.exchange} onClick={onExchange}>
-            Exchange
-          </button>
+          { rate ?
+            <button className={styles.exchange} onClick={onExchange}>
+              Exchange
+            </button>
+            : null
+          }
         </div>
         <Carusel
           list={currencies.map(currency => {
