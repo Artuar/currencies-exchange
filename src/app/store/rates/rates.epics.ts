@@ -22,11 +22,12 @@ export const getCurrenciesRateEpic: Epic<
 > = (action$, state$, { currenciesRateService }) => {
   return action$.pipe(
     filter(isActionOf(actions.setCurrencies)),
-    switchMap(({ payload: { from, to }}) =>
-      currenciesRateService(from, to).pipe(
-        map(rate => actions.setRate(rate))
-      )
-    ),
+    map(() => actions.setRate(1.1)), // TODO !!!!
+    // switchMap(({ payload: { from, to }}) =>
+    //   currenciesRateService(from, to).pipe(
+    //     map(rate => actions.setRate(rate))
+    //   )
+    // ),
   );
 };
 

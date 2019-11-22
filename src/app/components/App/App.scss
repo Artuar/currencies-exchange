@@ -1,10 +1,10 @@
+@import '../../styles/constants.scss';
+
 html {
   background: #212121;
   height: 100%;
   font-size: 3vh;
-  min-height: 500px;
-  min-width: 400px;
-  color: #ffffff;
+  color: $white;
   font-family: Arial;
 }
 
@@ -13,7 +13,7 @@ body {
 }
 
 button {
-  color: #ffffff;
+  color: $white;
   border: none;
   padding: 0;
   margin: 0;
@@ -26,7 +26,7 @@ input[type="text"] {
   outline: none;
   font-size: 6vh;
   text-align: right;
-  color: #ffffff;
+  color: $white;
 }
 
 .content {
@@ -34,6 +34,8 @@ input[type="text"] {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-image: linear-gradient(25deg, #1479ec 75%, #d9107d);
+  background-image: linear-gradient(25deg, $blue 75%, $pink);
   height: 100vh;
+  min-height: 500px;
+  min-width: 400px;
 }

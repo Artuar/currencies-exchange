@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/currency/currency.actions";
 import { balancesSelector } from "app/store/balances/balances.selectors";
 import { getSign } from "app/store/currency/currency.helpers";
+import { CaruselType } from "../Carusel/Carusel.types";
 
 export interface CaruselItem {
   text: string | React.ReactNode;
@@ -36,7 +37,7 @@ export const Currencies: React.FunctionComponent = () => {
   });
   return (
     <>
-      <Carusel list={list} active={currentCurrency} onChange={chooseCurrency}/>
+      <Carusel list={list} active={currentCurrency} onChange={chooseCurrency} type={CaruselType.Circle}/>
       <div className={styles.buttons}>
         <Link to={`/exchange/${currentCurrency}`}>
           <button className={styles.exchange}/>

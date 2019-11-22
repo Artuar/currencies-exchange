@@ -1,8 +1,11 @@
+@import '../../styles/constants.scss';
+
 .carusel {
   width: 80%;
   height: 70%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .circle {
@@ -20,20 +23,83 @@
       text-align: center;
       left: 0;
       top: 0;
+      .textWrapper {
+        position: absolute;
+        left: 0;
+      }
 
       &.current {
-        // width: 100%;
         font-size: 8vh;
-        color: #ffffff;
-        left: 40%;
+        color: $white;
+        left: 50%;
         top: 70%;
+        display: flex;
+        justify-content: center;
+        .textWrapper {
+          left: auto;
+        }
       }
 
       &.next {
-        left: 80%;
+        left: 100%;
         top: 0;
+        .textWrapper {
+          right: 0;
+          left: auto;
+        }
       }
     }
+  }
+  .slider {
+    height: 10%;
+  }
+}
+
+.flat {
+  .items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 70%;
+  }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: row;
+    opacity: 0;
+    padding: 8vh 0;
+    transition: opacity 0.2s, left 0.2s, width 0.2s;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    left: -100%
+  }
+
+  .current {
+    display: flex;
+    align-items: flex-start;
+    font-size: 8vh;
+    color: $white;
+    opacity: 1;
+    left: 0
+  }
+
+  .next {
+    left: 100%;
+    width: 0;
+  }
+  .slider {
+      height: 30%;
+  }
+
+  .textWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 }
 
@@ -41,14 +107,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 10%;
 }
 
 .point {
   width: 1vh;
   height: 1vh;
   border-radius: 50%;
-  background: #ffffff;
+  background: $white;
   opacity: 0.5;
   margin: 1vh;
   cursor: pointer;

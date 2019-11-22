@@ -1,3 +1,5 @@
+@import '../../styles/constants.scss';
+
 .buttons {
   display: flex;
   align-items: center;
@@ -17,13 +19,13 @@
 
   &:hover {
     transform: rotate(-180deg);
-    background-color: #0d6fcd;
-    box-shadow: 0 0 2vh 2vh #0d6fcd;
+    background-color: $sapphirine;
+    box-shadow: 0 0 2vh 2vh $sapphirine;
   }
 
   &:active {
-    box-shadow: 0 0 2vh 2vh #d9107d;
+    box-shadow: 0 0 2vh 2vh $pink;
     transition: 0.2s ease-in-out;
-    background-color: #d9107d;
+    background-color: $pink;
   }
 }

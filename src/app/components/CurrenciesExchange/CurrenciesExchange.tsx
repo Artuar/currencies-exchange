@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as styles from "./CurrenciesExchange.scss";
-import classNames from "classnames";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { chosenCurrenciesSelector, rateSelector, valueSelector } from "app/store/rates/rates.selectors";
@@ -8,8 +7,11 @@ import { Currency } from "app/store/currency/currency.types";
 import * as actions from "../../store/rates/rates.actions";
 import { useEffect } from "react";
 import { currenciesSelector } from "app/store/currency/currency.selectors";
-import { getSign } from "app/store/currency/currency.helpers";
 import { balancesSelector } from "app/store/balances/balances.selectors";
+import { ExchangeItem } from "./ExchangeItem/ExchangeItem";
+import { ResultItem } from "./ResultItem/ResultItem";
+import { Carusel } from "../Carusel/Carusel";
+import { CaruselType } from "../Carusel/Carusel.types";
 
 const useStateSelectors = () => ({
   currencies: useSelector(currenciesSelector),
@@ -36,27 +38,26 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
   const { setCurrencies, setValue, exchange } = useDispatchActions();
   const { currency } = useParams();
   const history = useHistory();
+  const formatedRate = rate ? rate.toFixed(2) : '0';
+  const result = +value * +formatedRate;
 
-  useEffect(() => {
-    const getTo = () => {
-      if (to !== currency) {
-        return to;
-      }
-      return currencies.indexOf(currency) === 0 ? currencies[1]: currencies[0];
+  const getTo = (chosen: Currency) => {
+    if (to !== chosen) {
+      return to;
     }
-    setCurrencies(currency as Currency, getTo());
-    return () => {setValue('')};
-  }, []);
-
-  const formatedRate = rate ? rate.toFixed(2) : rate;
-  const fromSign = getSign(from);
-  const toSign = getSign(to);
-  const result = +value * +(formatedRate || 0);
+    return currencies.indexOf(chosen) === 0 ? currencies[1]: currencies[0];
+  }
 
   const onExchange = () => {
     exchange(result);
     history.push({pathname: '/'});
   }
+
+  useEffect(() => {
+    const choosen = currency as Currency;
+    setCurrencies(choosen, getTo(choosen));
+    return () => {setValue('')};
+  }, []);
 
   return (
     <>
@@ -67,61 +68,30 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
           </Link>
           <button className={styles.exchange} onClick={onExchange}>Exchange</button>
         </div>
-        <div className={styles.carusel}>
-          <div className={styles.items}>
-            <div className={styles.item}>
-              <div className={styles.currency}>
-                <div className={styles.name}>
-                  { from }
-                </div>
-                <div className={styles.statement}>
-                  You have { fromSign } { balances[from] }
-                </div>
-              </div>
-              <div className={styles.sum}>
-                <input type="text"
-                       className={styles.input}
-                       onChange={event => setValue(event.target.value)}
-                       value={value}
-                />
-              </div>
-            </div>
-          </div>
-          <div className={styles.slider}>
-            <div className={styles.point}/>
-            <div className={classNames(styles.point, styles.active)}/>
-            <div className={styles.point}/>
-          </div>
-        </div>
+        <Carusel
+          list={currencies.map(currency => {
+            return {
+              text: <ExchangeItem from={currency} balance={balances[currency]} value={value} onChange={setValue} active={currency === from}/>,
+              value: currency,
+            }
+          })}
+          active={from}
+          onChange={(chosen: Currency) => setCurrencies(chosen, getTo(chosen))}
+          type={CaruselType.Flat}
+        />
       </div>
       <div className={styles.exchanges}>
-        <div className={styles.carusel}>
-          <div className={styles.items}>
-            <div className={styles.item}>
-            <div className={styles.currency}>
-              <div className={styles.name}>
-                { to }
-              </div>
-              <div className={styles.statement}>
-                You have { toSign } { balances[to] }
-              </div>
-            </div>
-            <div className={styles.details}>
-              <div className={styles.sum}>
-                { result.toFixed(2) }
-              </div>
-              <div className={styles.rate}>
-                { toSign }1 = { fromSign }{ formatedRate }
-              </div>
-            </div>
-            </div>
-          </div>
-          <div className={styles.slider}>
-            <div className={styles.point}/>
-            <div className={classNames(styles.point, styles.active)}/>
-            <div className={styles.point}/>
-          </div>
-        </div>
+        <Carusel
+          list={currencies.filter(cur => cur !== from).map(currency => {
+            return {
+              text: <ResultItem to={to} from={from} balance={balances[to]} result={result} rate={formatedRate} />,
+              value: currency,
+            }
+          })}
+          active={to}
+          onChange={(chosen: Currency) => setCurrencies(from, chosen)}
+          type={CaruselType.Flat}
+        />
         <div className={styles.triangular}/>
       </div>
     </>
