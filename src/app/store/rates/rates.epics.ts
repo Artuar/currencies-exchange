@@ -1,9 +1,4 @@
-import {
-  filter,
-  map,
-  switchMap,
-  withLatestFrom,
-} from "rxjs/operators";
+import { filter, map, switchMap, withLatestFrom } from "rxjs/operators";
 import { RootAction } from "app/store/rootActions";
 import { RootState } from "app/store/rootState";
 import { Epic, combineEpics } from "redux-observable";
@@ -22,7 +17,7 @@ export const getCurrenciesRateEpic: Epic<
 > = (action$, state$, { currenciesRateService }) => {
   return action$.pipe(
     filter(isActionOf(actions.setCurrencies)),
-    map(() => actions.setRate(1.1)), // TODO !!!!
+    map(() => actions.setRate(1.1)) // TODO !!!!
     // switchMap(({ payload: { from, to }}) =>
     //   currenciesRateService(from, to).pipe(
     //     map(rate => actions.setRate(rate))
@@ -31,11 +26,10 @@ export const getCurrenciesRateEpic: Epic<
   );
 };
 
-export const exchangeEpic: Epic<
-  RootAction,
-  RootAction,
-  RootState
-> = (action$, state$) => {
+export const exchangeEpic: Epic<RootAction, RootAction, RootState> = (
+  action$,
+  state$
+) => {
   const chosen$ = state$.pipe(map(chosenCurrenciesSelector));
   const rate$ = state$.pipe(map(rateSelector));
   const balances$ = state$.pipe(map(balancesSelector));
@@ -43,19 +37,18 @@ export const exchangeEpic: Epic<
     filter(isActionOf(actions.exchange)),
     withLatestFrom(chosen$, rate$, balances$),
     map(([{ payload }, { from, to }, rate, balances]) => {
-      return balancesActions.updateBalance([{
-        currency: from,
-        sum: balances[from] - payload,
-      },
-      {
-        currency: to,
-        sum: balances[to] - payload * (rate || 0),
-      }]);
+      return balancesActions.updateBalance([
+        {
+          currency: from,
+          sum: balances[from] - payload
+        },
+        {
+          currency: to,
+          sum: balances[to] - payload * (rate || 0)
+        }
+      ]);
     })
   );
 };
 
-export const ratesEpic = combineEpics(
-  getCurrenciesRateEpic,
-  exchangeEpic,
-);
+export const ratesEpic = combineEpics(getCurrenciesRateEpic, exchangeEpic);

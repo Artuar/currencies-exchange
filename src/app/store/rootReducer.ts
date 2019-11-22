@@ -6,5 +6,5 @@ import { balancesReducer } from "./balances/balances.reducer";
 export const rootReducer = combineReducers({
   currency: currencyReducer,
   rates: ratesReducer,
-  balances: balancesReducer,
+  balances: balancesReducer
 });

@@ -4,6 +4,6 @@ import { BalancesState } from "./balances/balances.reducer";
 
 export interface RootState {
   currency: CurrencyState;
-  rates: RatesState,
-  balances: BalancesState,
+  rates: RatesState;
+  balances: BalancesState;
 }

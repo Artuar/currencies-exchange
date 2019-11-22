@@ -14,7 +14,7 @@ export const ratesDefaultState: RatesState = {
   from: Currency.GBP,
   to: Currency.EUR,
   rate: undefined,
-  value: '',
+  value: ""
 };
 
 export const ratesReducer = (
@@ -28,7 +28,8 @@ export const ratesReducer = (
         ...state,
         from,
         to,
-        rate: undefined,
+        value: "",
+        rate: undefined
       };
     }
     case getType(actions.setRate): {

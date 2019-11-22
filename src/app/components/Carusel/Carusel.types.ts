@@ -1,4 +1,4 @@
 export const enum CaruselType {
-  Circle = 'circle',
-  Flat = 'flat',
+  Circle = "circle",
+  Flat = "flat"
 }

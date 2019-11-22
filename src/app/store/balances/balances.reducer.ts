@@ -5,12 +5,12 @@ import { Currency } from "../currency/currency.types";
 
 export type BalancesState = {
   [balance in Currency]: number;
-}
+};
 
 export const balancesDefaultState: BalancesState = {
   [Currency.GBP]: 20.0,
   [Currency.USD]: 30.0,
-  [Currency.EUR]: 40.0,
+  [Currency.EUR]: 40.0
 };
 
 export const balancesReducer = (
@@ -20,9 +20,10 @@ export const balancesReducer = (
   switch (action.type) {
     case getType(actions.updateBalance): {
       const newState = { ...state };
-      action.payload.forEach(balance => (newState[balance.currency] = balance.sum))
+      action.payload.forEach(
+        balance => (newState[balance.currency] = balance.sum)
+      );
       return newState;
-;
     }
     default:
       return state;

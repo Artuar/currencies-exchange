@@ -7,7 +7,7 @@ const ratesSelector = (state: RootState): RatesState => state.rates;
 
 export const chosenCurrenciesSelector = createSelector(
   ratesSelector,
-  ({from, to}: RatesState): ChosenCurrencies => ({from, to})
+  ({ from, to }: RatesState): ChosenCurrencies => ({ from, to })
 );
 
 export const rateSelector = createSelector(

@@ -2,12 +2,15 @@ import * as React from "react";
 import * as styles from "./Currencies.scss";
 import { Link } from "react-router-dom";
 import { Carusel } from "../Carusel/Carusel";
-import { Currency } from "app/store/currency/currency.types";
-import { currentCurrencySelector, currenciesSelector } from "app/store/currency/currency.selectors";
+import { Currency } from "../../store/currency/currency.types";
+import {
+  currentCurrencySelector,
+  currenciesSelector
+} from "../../store/currency/currency.selectors";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/currency/currency.actions";
-import { balancesSelector } from "app/store/balances/balances.selectors";
-import { getSign } from "app/store/currency/currency.helpers";
+import { balancesSelector } from "../../store/balances/balances.selectors";
+import { getSign } from "../../store/currency/currency.helpers";
 import { CaruselType } from "../Carusel/Carusel.types";
 
 export interface CaruselItem {
@@ -18,7 +21,7 @@ export interface CaruselItem {
 const useStateSelectors = () => ({
   currentCurrency: useSelector(currentCurrencySelector),
   currencies: useSelector(currenciesSelector),
-  balances: useSelector(balancesSelector),
+  balances: useSelector(balancesSelector)
 });
 
 const useDispatchActions = () => {
@@ -33,14 +36,22 @@ export const Currencies: React.FunctionComponent = () => {
   const { currentCurrency, balances, currencies } = useStateSelectors();
   const { chooseCurrency } = useDispatchActions();
   const list: CaruselItem[] = currencies.map((currency: Currency) => {
-    return {text: `${balances[currency].toFixed(2)} ${getSign(currency)}`, value: currency}
+    return {
+      text: `${balances[currency].toFixed(2)} ${getSign(currency)}`,
+      value: currency
+    };
   });
   return (
     <>
-      <Carusel list={list} active={currentCurrency} onChange={chooseCurrency} type={CaruselType.Circle}/>
+      <Carusel
+        list={list}
+        active={currentCurrency}
+        onChange={chooseCurrency}
+        type={CaruselType.Circle}
+      />
       <div className={styles.buttons}>
         <Link to={`/exchange/${currentCurrency}`}>
-          <button className={styles.exchange}/>
+          <button className={styles.exchange} />
         </Link>
       </div>
     </>
