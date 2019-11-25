@@ -32,7 +32,6 @@ export const getCurrenciesRateEpic: Epic<
   );
 
   return setCurrencies$.pipe(
-    //map(() => actions.setRate(1.1)) // TODO !!!!
     mergeMap(({ payload: { from, to } }) => {
       return interval(10000).pipe(
         startWith(0),
