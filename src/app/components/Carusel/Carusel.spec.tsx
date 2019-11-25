@@ -20,6 +20,7 @@ describe("Carusel", () => {
           active="1"
           onChange={() => {}}
           type={CaruselType.Flat}
+          name="test"
         />
       </Provider>
     );

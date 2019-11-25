@@ -51,6 +51,7 @@ export const ExchangeItem: React.FunctionComponent<Props> = ({
       <div className={styles.sum}>
         <input
           type="text"
+          id={`currency-value-${from}`}
           ref={field}
           maxLength={9}
           className={styles.input}

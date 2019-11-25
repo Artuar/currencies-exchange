@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as styles from "./Currencies.scss";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Carusel } from "../Carusel/Carusel";
 import { Currency } from "../../store/currency/currency.types";
 import {
@@ -35,12 +35,16 @@ const useDispatchActions = () => {
 export const Currencies: React.FunctionComponent = () => {
   const { currentCurrency, balances, currencies } = useStateSelectors();
   const { chooseCurrency } = useDispatchActions();
+  const history = useHistory();
   const list: CaruselItem[] = currencies.map((currency: Currency) => {
     return {
       text: `${balances[currency].toFixed(2)} ${getSign(currency)}`,
       value: currency
     };
   });
+  const exchangeHandler = () => {
+    history.push(`/exchange/${currentCurrency}`);
+  }
   return (
     <>
       <Carusel
@@ -48,11 +52,10 @@ export const Currencies: React.FunctionComponent = () => {
         active={currentCurrency}
         onChange={chooseCurrency}
         type={CaruselType.Circle}
+        name="balances"
       />
-      <div className={styles.buttons}>
-        <Link to={`/exchange/${currentCurrency}`}>
-          <button className={styles.exchange} />
-        </Link>
+      <div className={styles.buttons} >
+        <button id='exchange-button' className={styles.exchange} onClick={exchangeHandler}/>
       </div>
     </>
   );

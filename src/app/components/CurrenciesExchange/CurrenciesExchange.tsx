@@ -57,12 +57,12 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
   };
 
   const onExchange = () => {
-    exchange(result);
+    exchange(+value);
     history.push({ pathname: "/" });
   };
 
   useEffect(() => {
-    const choosen = currency as Currency;
+    const choosen = currency as Currency || Currency.GBP;
     setCurrencies(choosen, getTo(choosen));
     return () => {
       setValue("");
@@ -74,10 +74,10 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
       <div className={styles.currencies}>
         <div className={styles.buttons}>
           <Link to="/">
-            <button className={styles.cancel}>Cancel</button>
+            <button className={styles.cancel} id="cancel-button">Cancel</button>
           </Link>
           { rate ?
-            <button className={styles.exchange} onClick={onExchange}>
+            <button className={styles.exchange} onClick={onExchange} id="exchange-currency-button">
               Exchange
             </button>
             : null
@@ -101,6 +101,7 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
           active={from}
           onChange={(chosen: Currency) => setCurrencies(chosen, getTo(chosen))}
           type={CaruselType.Flat}
+          name="from"
         />
       </div>
       <div className={styles.exchanges}>
@@ -124,6 +125,7 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
           active={to}
           onChange={(chosen: Currency) => setCurrencies(from, chosen)}
           type={CaruselType.Flat}
+          name="to"
         />
         <div className={styles.triangular} />
       </div>

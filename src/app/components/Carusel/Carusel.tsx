@@ -9,19 +9,21 @@ interface Props {
   active: string;
   onChange(item: string): void;
   type: CaruselType;
+  name: string;
 }
 
 export const Carusel: React.FunctionComponent<Props> = ({
   list,
   active,
   onChange,
-  type
+  type,
+  name
 }) => {
   const activePos = list.map(item => item.value).indexOf(active);
   const nextPos = activePos === list.length - 1 ? 0 : activePos + 1;
   return (
     <div className={classNames(styles.carusel, styles[type])}>
-      <div className={styles.items}>
+      <div className={styles.items} id={`${name}-carusel-items`}>
         {list.map((item, index) => (
           <div
             key={item.value}
@@ -34,9 +36,10 @@ export const Carusel: React.FunctionComponent<Props> = ({
           </div>
         ))}
       </div>
-      <div className={styles.slider}>
+      <div className={styles.slider} id={`${name}-slider-wrapper`}>
         {list.map((item, index) => (
           <button
+            id={`${name}-slider-button-${index}`}
             key={index}
             className={classNames(styles.point, {
               [styles.active]: index === activePos

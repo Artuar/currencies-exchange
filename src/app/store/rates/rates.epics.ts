@@ -18,18 +18,19 @@ export const getCurrenciesRateEpic: Epic<
 > = (action$, state$, { currenciesRateService }) => {
   return action$.pipe(
       filter(isActionOf(actions.setCurrencies)),
-      mergeMap(({ payload: { from, to }}) => {
-        return interval(10000).pipe(
-          startWith(0),
-          switchMap(() => {
-            return currenciesRateService(from, to).pipe(
-              map(rate => actions.setRate(rate))
-            )
-          }),
-          takeUntil(action$.pipe(filter(isActionOf(actions.setCurrencies)))
-        )
-      )
-      })
+      map(() => actions.setRate(1.1)) // TODO !!!!
+      // mergeMap(({ payload: { from, to }}) => {
+      //   return interval(10000).pipe(
+      //     startWith(0),
+      //     switchMap(() => {
+      //       return currenciesRateService(from, to).pipe(
+      //         map(rate => actions.setRate(rate))
+      //       )
+      //     }),
+      //     takeUntil(action$.pipe(filter(isActionOf(actions.setCurrencies)))
+      //   )
+      // )
+      // })
     )
 };
 
