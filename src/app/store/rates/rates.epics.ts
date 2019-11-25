@@ -64,7 +64,7 @@ export const exchangeEpic: Epic<RootAction, RootAction, RootState> = (
         },
         {
           currency: to,
-          sum: balances[to] - payload * (rate || 0)
+          sum: balances[to] + payload * (rate || 0)
         }
       ]);
     })
