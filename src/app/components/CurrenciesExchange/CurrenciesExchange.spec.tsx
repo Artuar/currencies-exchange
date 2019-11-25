@@ -15,13 +15,13 @@ describe("CurrenciesExchange", () => {
   const mockStore = configureMockStore();
   let store = mockStore({});
   let component: ReactWrapper;
-  const TEST_VALUE = '1';
+  const TEST_VALUE = "1";
 
   const mountComponent = () => {
     store = mockStore({
       currency: currencyDefaultState,
       balances: balancesDefaultState,
-      rates: { ...ratesDefaultState, value: TEST_VALUE, rate: 2 },
+      rates: { ...ratesDefaultState, value: TEST_VALUE, rate: 2 }
     });
 
     jest
@@ -57,27 +57,33 @@ describe("CurrenciesExchange", () => {
 
   it("should exchange currency", () => {
     component.find(`#exchange-currency-button`).simulate("click");
-    expect(store.getActions()[1]).toMatchObject(ratesActions.exchange(+TEST_VALUE));
+    expect(store.getActions()[1]).toMatchObject(
+      ratesActions.exchange(+TEST_VALUE)
+    );
   });
 
   it("should change from currency", () => {
     const TEST_CURRENCY_INDEX = 1;
-    component.find(`#from-slider-button-${TEST_CURRENCY_INDEX}`).simulate("click");
+    component
+      .find(`#from-slider-button-${TEST_CURRENCY_INDEX}`)
+      .simulate("click");
     expect(store.getActions()[1]).toEqual(
-      ratesActions.setCurrencies({from: Currency.USD, to: Currency.EUR})
+      ratesActions.setCurrencies({ from: Currency.USD, to: Currency.EUR })
     );
   });
 
   it("should change to currency", () => {
     const TEST_CURRENCY_INDEX = 1;
-    component.find(`#from-slider-button-${TEST_CURRENCY_INDEX}`).simulate("click");
+    component
+      .find(`#from-slider-button-${TEST_CURRENCY_INDEX}`)
+      .simulate("click");
     expect(store.getActions()[1]).toEqual(
-      ratesActions.setCurrencies({from: Currency.USD, to: Currency.EUR})
+      ratesActions.setCurrencies({ from: Currency.USD, to: Currency.EUR })
     );
   });
 
   it("should change value", () => {
-    const TEST_VALUE = '3';
+    const TEST_VALUE = "3";
     component
       .find("#currency-value-GBP")
       .simulate("change", { target: { value: TEST_VALUE } });

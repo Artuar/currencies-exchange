@@ -31,7 +31,8 @@ const useDispatchActions = () => {
     setCurrencies: (from: Currency, to: Currency) =>
       dispatch(actions.setCurrencies({ from, to })),
     setValue: (value: string) => dispatch(actions.setValue(value)),
-    exchange: (value: number) => dispatch(actions.exchange(value))
+    exchange: (value: number) => dispatch(actions.exchange(value)),
+    finishUpdates: () => dispatch(actions.finishUpdates())
   };
 };
 
@@ -43,7 +44,12 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
     balances,
     value
   } = useStateSelectors();
-  const { setCurrencies, setValue, exchange } = useDispatchActions();
+  const {
+    setCurrencies,
+    setValue,
+    exchange,
+    finishUpdates
+  } = useDispatchActions();
   const { currency } = useParams();
   const history = useHistory();
   const formatedRate = rate ? rate.toFixed(2) : "0";
@@ -62,10 +68,11 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
   };
 
   useEffect(() => {
-    const choosen = currency as Currency || Currency.GBP;
+    const choosen = (currency as Currency) || Currency.GBP;
     setCurrencies(choosen, getTo(choosen));
     return () => {
       setValue("");
+      finishUpdates();
     };
   }, []);
 
@@ -74,14 +81,19 @@ export const CurrenciesExchange: React.FunctionComponent = () => {
       <div className={styles.currencies}>
         <div className={styles.buttons}>
           <Link to="/">
-            <button className={styles.cancel} id="cancel-button">Cancel</button>
+            <button className={styles.cancel} id="cancel-button">
+              Cancel
+            </button>
           </Link>
-          { rate ?
-            <button className={styles.exchange} onClick={onExchange} id="exchange-currency-button">
+          {rate ? (
+            <button
+              className={styles.exchange}
+              onClick={onExchange}
+              id="exchange-currency-button"
+            >
               Exchange
             </button>
-            : null
-          }
+          ) : null}
         </div>
         <Carusel
           list={currencies.map(currency => {

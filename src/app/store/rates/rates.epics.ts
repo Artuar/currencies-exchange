@@ -1,4 +1,12 @@
-import { filter, map, switchMap, withLatestFrom, mergeMap, takeUntil, startWith } from "rxjs/operators";
+import {
+  filter,
+  map,
+  switchMap,
+  withLatestFrom,
+  mergeMap,
+  takeUntil,
+  startWith
+} from "rxjs/operators";
 import { RootAction } from "app/store/rootActions";
 import { RootState } from "app/store/rootState";
 import { Epic, combineEpics } from "redux-observable";
@@ -8,7 +16,7 @@ import * as balancesActions from "../balances/balances.actions";
 import { Services } from "app/services/rootServices";
 import { chosenCurrenciesSelector, rateSelector } from "./rates.selectors";
 import { balancesSelector } from "../balances/balances.selectors";
-import { interval } from "rxjs";
+import { interval, merge } from "rxjs";
 
 export const getCurrenciesRateEpic: Epic<
   RootAction,
@@ -16,22 +24,27 @@ export const getCurrenciesRateEpic: Epic<
   RootState,
   Services
 > = (action$, state$, { currenciesRateService }) => {
-  return action$.pipe(
-      filter(isActionOf(actions.setCurrencies)),
-      map(() => actions.setRate(1.1)) // TODO !!!!
-      // mergeMap(({ payload: { from, to }}) => {
-      //   return interval(10000).pipe(
-      //     startWith(0),
-      //     switchMap(() => {
-      //       return currenciesRateService(from, to).pipe(
-      //         map(rate => actions.setRate(rate))
-      //       )
-      //     }),
-      //     takeUntil(action$.pipe(filter(isActionOf(actions.setCurrencies)))
-      //   )
-      // )
-      // })
-    )
+  const setCurrencies$ = action$.pipe(
+    filter(isActionOf(actions.setCurrencies))
+  );
+  const finishUpdates$ = action$.pipe(
+    filter(isActionOf(actions.finishUpdates))
+  );
+
+  return setCurrencies$.pipe(
+    //map(() => actions.setRate(1.1)) // TODO !!!!
+    mergeMap(({ payload: { from, to } }) => {
+      return interval(10000).pipe(
+        startWith(0),
+        switchMap(() => {
+          return currenciesRateService(from, to).pipe(
+            map(rate => actions.setRate(rate))
+          );
+        }),
+        takeUntil(merge(setCurrencies$, finishUpdates$))
+      );
+    })
+  );
 };
 
 export const exchangeEpic: Epic<RootAction, RootAction, RootState> = (

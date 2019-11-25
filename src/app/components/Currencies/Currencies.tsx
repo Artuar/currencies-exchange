@@ -44,7 +44,7 @@ export const Currencies: React.FunctionComponent = () => {
   });
   const exchangeHandler = () => {
     history.push(`/exchange/${currentCurrency}`);
-  }
+  };
   return (
     <>
       <Carusel
@@ -54,8 +54,12 @@ export const Currencies: React.FunctionComponent = () => {
         type={CaruselType.Circle}
         name="balances"
       />
-      <div className={styles.buttons} >
-        <button id='exchange-button' className={styles.exchange} onClick={exchangeHandler}/>
+      <div className={styles.buttons}>
+        <button
+          id="exchange-button"
+          className={styles.exchange}
+          onClick={exchangeHandler}
+        />
       </div>
     </>
   );
